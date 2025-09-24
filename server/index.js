@@ -1,9 +1,9 @@
-const { getMusicDataFromMood, generateResponse } = require('./gemini');
-const {tamilsongsacrdtomood,getSongsAndArtists}=require('./spotify');
 require('dotenv').config();
 const express = require('express');
 const server=express();
 const portno=process.env.PORT || 3000;
+const { getMusicDataFromMood, generateResponse } = require('./gemini.js');
+const {tamilsongsacrdtomood,getSongsAndArtists}=require('./spotify.js');
 server.use(express.json());
 server.post('/api/MIC',async(req,res)=>{
     const{mood}=req.body;
@@ -15,7 +15,8 @@ console.log('Mood fetched:',mood);
     console.log('Music data:',musicData);
     console.log('Creating playlist');
     const newplaylist=await getSongsAndArtists(mood,musicData); 
-    res.status(201).json(musicData);
+    console.log('Successfully created playlist:',newplaylist.name);
+    res.status(201).json(newplaylist);
     }catch(error){
         console.error("Error in /api/MIC route:",error);
         res.status(500).json({error:"Internal server error"});
