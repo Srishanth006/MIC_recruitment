@@ -26,11 +26,17 @@ async function getSongsAndArtists(mood, musicData){
         const trackuri = recom.body.tracks.map((track)=>track.uri);
         const uid = 'y86ksw5pssn1uup8eapk0hq7e';
         const playlist = `Mood ${mood}`;
-        const newplaylist = await spotapi.createPlaylist(uid, playlist, {'description':`A playlist for the mood: ${mood}`,'public':true});
+        const newplaylist = await spotapi.createPlaylist(
+            uid, playlist, {'description':`A playlist for the mood: ${mood}by gemini`,'public':true
+        });
         console.log('Playlist created:',newplaylist.body);
         const playlistid = newplaylist.body.id;
+        if(trackuri.length>0){
         await spotapi.addTracksToPlaylist(playlistid, trackuri);
         console.log('Tracks added to playlist');
+        }else{
+            console.log('No tracks found to add to the playlist');
+        }
         return newplaylist.body;
     }catch(error){
         console.error("Error creating playlist or adding tracks:",error);
