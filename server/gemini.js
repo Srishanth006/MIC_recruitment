@@ -4,7 +4,7 @@ const gemini=new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 async function generateResponse(mood){
     try{
         const model=gemini.getGenerativeModel({model:"gemini-1.5-flash"});
-        const prompt= `Imagine you are music expert and you know most of the tamil songs ,According to the users mood : "${mood}",generate around 5-8 songs across 3 tamil artists that would fit this mood for spotify playlist,Give only spotify ids of the artists ,format the response as a valid JSON object in the format mentioned below ,only this nothing else :{"songs": ["song1", "song2", "song3"], "artists": ["artist_id1", "artist_id2"]}`;
+        const prompt= `Imagine you are music expert and you know most of the tamil songs ,According to the users mood : "${mood}",give 3 tamil artists that would fit this mood for a spotify playlist,Give only spotify ids of the artists ,format the response as a valid JSON object in the format mentioned below ,only this nothing else :{"artists": ["artist_id1", "artist_id2","artist_id3"]}`;
         const result = await model.generateContent(prompt);
         const responseText = await result.response;
         let text = responseText.text();

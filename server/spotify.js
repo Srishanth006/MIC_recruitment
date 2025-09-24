@@ -79,7 +79,7 @@ async function getSongsAndArtists(mood, musicData) {
 
         return newplaylist.body;
     } catch (error) {
-        console.error("Error creating playlist or adding tracks:", error.message);
+        console.error("Error creating playlist or adding tracks:", error.body || error.message);
         throw new Error("Failed to create playlist or add tracks");
     }
 }
