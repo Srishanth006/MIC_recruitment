@@ -8,8 +8,8 @@ async function generateResponse(mood){
         const result = await model.generateContent(prompt);
         const responseText = await result.response;
         const text=responseText.text();
-    }
-} catch(error){
+    }catch(error){
     console.error("Error generating songs from Gemini API:",error);
     throw new Error("Failed to generate response");
+} 
 }
