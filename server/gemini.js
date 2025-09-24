@@ -4,7 +4,7 @@ const gemini=new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 async function generateResponse(mood){
     try{
         const model=gemini.getGenerativeModel({model:"gemini-1.5-flash"});
-        const prompt= `Imagine you are music expert and you know most of the tamil songs ,According to the users mood : "${mood}",give 3 tamil artists that would fit this mood for a spotify playlist,Give only spotify ids of the artists ,format the response as a valid JSON object in the format mentioned below ,only this nothing else :{"artists": ["artist_id1", "artist_id2","artist_id3"]}`;
+        const prompt= `Imagine you are music expert and you know most of the tamil songs ,According to the users mood : "${mood}",give 3 tamil artists that would fit this mood for a spotify playlist,Give only spotify names of the artists ,format the response as a valid JSON object in the format mentioned below ,only this nothing else dont give markdown formatting like \`\`\`json:{"artists": ["artist_name1", "artist_name2","artist_name3"]}`;
         const result = await model.generateContent(prompt);
         const responseText = await result.response;
         let text = responseText.text();
@@ -15,13 +15,11 @@ async function generateResponse(mood){
             try{
                 const parsedData=JSON.parse(jsonstring);
                 return {
-                    genres: parsedData.genres || [],
-                    songs: parsedData.songs || [],
                     artists: parsedData.artists || [],
                 };
-            }catch(parseError){ 
-                console.error("Error parsing JSON:",parseError);
-                throw new Error("Failed to parse JSON from Gemini response");
+            }catch(jsonerror){ 
+                console.error("Error parsing JSON:",jsonstring);
+                throw new Error("Gemini invalid JSON response");
                 }
             }
             else{
