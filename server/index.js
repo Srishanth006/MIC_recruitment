@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const server=express();
-const portno=process.env.PORT || 3000;
+const portno=process.env.PORT || 3001;
 const { getMusicDataFromMood, generateResponse } = require('./gemini.js');
 const {tamilsongsacrdtomood,getSongsAndArtists}=require('./spotify.js');
 server.use(express.json());
+server.use(cors());
 server.post('/api/MIC',async(req,res)=>{
     const{mood}=req.body;
     if(!mood){
