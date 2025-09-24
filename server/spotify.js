@@ -17,14 +17,18 @@ async function tamilsongsacrdtomood(){
 async function getSongsAndArtists(mood, musicData){
     try{
         await tamilsongsacrdtomood();
-        const seed_artists=musicData.artists.slice(0,3);   
+        const seed_artists=musicData.artists.slice(0,3);
+        console.log('--- DEBUG: Sending to Spotify ---');
+        console.log('User ID:', uid);
+        console.log('Artist Seeds:', seed_artists);
+        console.log('---------------------------------');
         const recom = await spotapi.getRecommendations({
             seed_artists:seed_artists,
             limit:20,           
         });
        
         const trackuri = recom.body.tracks.map((track)=>track.uri);
-        const uid = 'y86ksw5pssn1uup8eapk0hq7e?si=041fedd6d1374fbb';
+        const uid = 'y86ksw5pssn1uup8eapk0hq7e';
         const playlist = `Mood ${mood}`;
         const newplaylist = await spotapi.createPlaylist(
             uid, playlist, {'description':`A playlist for the mood: ${mood}by gemini`,'public':true
