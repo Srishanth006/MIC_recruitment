@@ -24,7 +24,7 @@ async function getSongsAndArtists(mood, musicData){
         });
        
         const trackuri = recom.body.tracks.map((track)=>track.uri);
-        const uid = 'y86ksw5pssn1uup8eapk0hq7e';
+        const uid = 'y86ksw5pssn1uup8eapk0hq7e?si=041fedd6d1374fbb';
         const playlist = `Mood ${mood}`;
         const newplaylist = await spotapi.createPlaylist(
             uid, playlist, {'description':`A playlist for the mood: ${mood}by gemini`,'public':true
