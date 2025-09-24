@@ -14,12 +14,12 @@ async function tamilsongsacrdtomood(){
         throw new Error("Failed to get spotify access token");
     }
 }
-async function authenticateSpotify(mood, musicData){
+async function getSongsAndArtists(mood, musicData){
     try{
-        await authenticateSpotify();
+        await tamilsongsacrdtomood();
         const seed_artists=musicData.artists.slice(0,3);   
         const recom = await spotapi.getRecommendations({
-            seed_artists:seedArtists,
+            seed_artists:seed_artists,
             limit:20,           
         });
        
@@ -43,4 +43,5 @@ async function authenticateSpotify(mood, musicData){
         throw new Error("Failed to create playlist or add tracks");
     }
 }
-module.exports={authenticateSpotify};
+
+module.exports={getSongsAndArtists};
