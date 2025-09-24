@@ -16,6 +16,7 @@ async function tamilsongsacrdtomood(){
 }
 async function getSongsAndArtists(mood, musicData){
     try{
+        const uid = 'y86ksw5pssn1uup8eapk0hq7e';
         await tamilsongsacrdtomood();
         const seed_artists=musicData.artists.slice(0,3);
         console.log('--- DEBUG: Sending to Spotify ---');
@@ -28,7 +29,7 @@ async function getSongsAndArtists(mood, musicData){
         });
        
         const trackuri = recom.body.tracks.map((track)=>track.uri);
-        const uid = 'y86ksw5pssn1uup8eapk0hq7e';
+        
         const playlist = `Mood ${mood}`;
         const newplaylist = await spotapi.createPlaylist(
             uid, playlist, {'description':`A playlist for the mood: ${mood}by gemini`,'public':true
