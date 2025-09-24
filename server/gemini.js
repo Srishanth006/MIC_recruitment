@@ -13,3 +13,4 @@ async function generateResponse(mood){
     throw new Error("Failed to generate response");
 } 
 }
+module.exports={generateResponse};
