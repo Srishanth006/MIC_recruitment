@@ -14,7 +14,7 @@ async function tamilsongsacrdtomood(){
         throw new Error("Failed to get spotify access token");
     }
 }
-async function getSongsAndArtists(mood, musicData){
+async function authenticateSpotify(mood, musicData){
     try{
         await authenticateSpotify();
         const seed_artists=musicData.artists.slice(0,3);   
@@ -43,4 +43,4 @@ async function getSongsAndArtists(mood, musicData){
         throw new Error("Failed to create playlist or add tracks");
     }
 }
-module.exports={tamilsongsacrdtomood,getSongsAndArtists};
+module.exports={authenticateSpotify};
