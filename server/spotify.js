@@ -16,12 +16,13 @@ async function tamilsongsacrdtomood(){
 }
 async function getSongsAndArtists(mood, musicData){
     try{
-        await tamilsongsacrdtomood();
+        await authenticateSpotify();
+        const seed_artists=musicData.artists.slice(0,3);   
         const recom = await spotapi.getRecommendations({
-            seed_tracks: musicData.songs.slice(0,5),
-            seed_artists: musicData.artists.slice(0,3),
-            limit: 20,
+            seed_artists:seedArtists,
+            limit:20,           
         });
+       
         const trackuri = recom.body.tracks.map((track)=>track.uri);
         const uid = 'y86ksw5pssn1uup8eapk0hq7e';
         const playlist = `Mood ${mood}`;
