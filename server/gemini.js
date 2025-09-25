@@ -4,7 +4,7 @@ const gemini=new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 async function generateResponse(mood){
     try{
         const model=gemini.getGenerativeModel({model:"gemini-1.5-flash"});
-        const prompt= `Imagine you are music expert and you know most of the tamil songs ,According to the users mood : "${mood}",give 3 tamil artists that would fit this mood for a spotify playlist,Give only spotify names of the artists ,format the response as a valid JSON object in the format mentioned below ,only this nothing else dont give markdown formatting like \`\`\`json:{"artists": ["artist_name1", "artist_name2","artist_name3"]}`;
+        const prompt= `You are a music expert. For the user's mood: "${mood}", provide 3 relevant Tamil artist names and 2 relevant genre names. The genre names MUST be from Spotify's official list and formatted correctly: all lowercase, with spaces replaced by hyphens. For example: "kollywood", "tamil-pop", "indian-classical". Your entire response MUST BE ONLY a valid JSON object with no other text or markdown formatting. The format must be exactly: {"artists": ["artist_name_1", "artist_name_2"], "genres": ["valid-genre-1", "valid-genre-2"]}`;
         const result = await model.generateContent(prompt);
         const responseText = await result.response;
         let text = responseText.text();
@@ -16,6 +16,7 @@ async function generateResponse(mood){
                 const parsedData=JSON.parse(jsonstring);
                 return {
                     artists: parsedData.artists || [],
+                    genres: parsedData.genres || []
                 };
             }catch(jsonerror){ 
                 console.error("Error parsing JSON:",jsonstring);
@@ -23,7 +24,7 @@ async function generateResponse(mood){
                 }
             }
             else{
-                console.error("No JSON object found in the response");
+                console.error("No JSON object found in the response",text);
                 throw new Error("No JSON object found in the response");
         }
     }catch(error){
@@ -35,4 +36,3 @@ async function generateResponse(mood){
 } 
 
 module.exports={generateResponse};
-
